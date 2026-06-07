@@ -1,0 +1,16 @@
+# Main input file for the agent pipeline.
+# Edit this before running `npm run agents` or `npm run agents:bootstrap`.
+
+description: |
+  Describe what you want the pipeline to build.
+  Be specific. Examples:
+    - "Create a NoteListPage POM with createNote, deleteNote, searchNotes methods, then build a test that verifies creating a note adds it to the visible list."
+    - "Add a test that creates a note, refreshes the page, and verifies it persists via localStorage inspection."
+
+pomsInvolved: []
+
+tags:
+  - '@e2e'
+
+generateReport: false
+runDebug: true

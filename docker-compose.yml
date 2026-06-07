@@ -1,0 +1,26 @@
+services:
+  tests:
+    build: .
+    container_name: takenote-tests
+    environment:
+      - BASE_URL=${BASE_URL:-https://takenote.dev}
+      - CI=${CI:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results
+      - ./logs:/app/logs
+    command: npm test
+
+  allure:
+    image: frankescobar/allure-docker-service
+    container_name: takenote-allure
+    environment:
+      CHECK_RESULTS_EVERY_SECONDS: 3
+      KEEP_HISTORY: 'TRUE'
+    ports:
+      - '5050:5050'
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./allure-reports:/app/default-reports

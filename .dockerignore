@@ -1,0 +1,11 @@
+node_modules
+playwright-report
+allure-results
+allure-report
+test-results
+.git
+.env
+.env.local
+*.log
+downloads
+agents/failure-reports

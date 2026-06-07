@@ -1,0 +1,10 @@
+# Fill this in when you want to fix a specific failure manually.
+# Then run: npm run agents:fix
+
+description: |
+  Describe what failed and what needs to be fixed.
+  Be specific — include the error, the file path, and what the correct behavior should be.
+
+files: []
+
+runValidation: false
