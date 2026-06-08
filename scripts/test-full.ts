@@ -26,9 +26,12 @@ if (fs.existsSync(savedHistory)) {
 }
 
 console.log('🧪 Running tests...');
+let testsFailed = false;
 try {
   run('npx playwright test --project=chromium');
-} catch {}
+} catch {
+  testsFailed = true;
+}
 
 console.log('\n📊 Generating Allure report...');
 run('npx allure generate allure-results --clean -o allure-report');
@@ -37,6 +40,11 @@ run('npx allure generate allure-results --clean -o allure-report');
 const newHistory = path.join(process.cwd(), 'allure-report', 'history');
 if (fs.existsSync(newHistory)) {
   fs.cpSync(newHistory, savedHistory, { recursive: true });
+}
+
+if (testsFailed) {
+  console.log('\n❌ Tests failed — report generated. Open manually: npm run report:open');
+  process.exit(1);
 }
 
 console.log('\n🌐 Opening report...');

@@ -44,18 +44,16 @@ test.describe('@search Search', () => {
 
   test('Search with no match shows empty list', async ({ noteListPage }) => {
     addTestDescription({
-      whatIsTested: 'Search with no matching results shows fewer notes than before searching.',
-      testSteps: ['Record initial count', 'Search for non-existent content', 'Verify count decreased'],
+      whatIsTested: 'Searching for a term with no matching notes results in an empty list.',
+      testSteps: ['Search for non-existent content', 'Verify count is 0'],
     });
-
-    const countBefore = await noteListPage.getNoteCount();
 
     await allure.step('Search for non-existent content', async () => {
       await noteListPage.search('XQZNOTEXIST9876');
     });
 
     await allure.step('Verify list is empty', async () => {
-      await expect.poll(() => noteListPage.getNoteCount(), { timeout: 5000 }).toBeLessThan(countBefore);
+      await expect.poll(() => noteListPage.getNoteCount(), { timeout: 5000 }).toBe(0);
     });
 
     logger.info('Search no match test completed');
