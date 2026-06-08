@@ -20,22 +20,16 @@ export class NoteListPage {
 
   // — Methods ────────────────────────────────────────────────
 
-  /** Types into the search box to trigger TakeNote's filter */
+  /** Fills the search box to trigger TakeNote's in-memory filter */
   async search(query: string): Promise<void> {
     logger.info(`[NoteList] Searching for: "${query}"`);
-    await this.searchInput.click();
-    await this.searchInput.clear();
-    await this.page.keyboard.type(query);
-    // Wait for search results to update by ensuring note items are in stable state
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.searchInput.fill(query);
   }
 
-  /** Clears the search input and waits for the list to restore */
+  /** Clears the search input */
   async clearSearch(): Promise<void> {
     logger.info('[NoteList] Clearing search');
-    await this.searchInput.clear();
-    // Wait for full list to restore by ensuring page has processed the clear action
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.searchInput.fill('');
   }
 
   /** Returns the note list item at the given 0-based index */

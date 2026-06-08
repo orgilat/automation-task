@@ -17,7 +17,7 @@ test.describe('@favorites Favorites', () => {
     });
   });
 
-  test('Favorite via toolbar appears in Favorites', async ({ page, sidebarPage, editorPage, noteListPage }) => {
+  test('Favorite via toolbar appears in Favorites', async ({ sidebarPage, editorPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'A note favorited via toolbar appears in the Favorites section.',
       testSteps: ['Create note', 'Click favorite button', 'Navigate to Favorites', 'Verify note present'],
@@ -44,7 +44,7 @@ test.describe('@favorites Favorites', () => {
     logger.info('Favorite via toolbar test completed');
   });
 
-  test('Only favorited note appears in Favorites', async ({ page, sidebarPage, editorPage, noteListPage }) => {
+  test('Only favorited note appears in Favorites', async ({ sidebarPage, editorPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'Only favorited notes appear in the Favorites section.',
       testSteps: ['Create 2 notes', 'Favorite only first', 'Navigate to Favorites', 'Verify count is 1'],
@@ -75,7 +75,7 @@ test.describe('@favorites Favorites', () => {
     logger.info('Single favorite test completed');
   });
 
-  test('Un-favorite removes note from Favorites', async ({ page, sidebarPage, editorPage, noteListPage }) => {
+  test('Un-favorite removes note from Favorites', async ({ sidebarPage, editorPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'Un-favoriting a note removes it from Favorites.',
       testSteps: ['Create note', 'Favorite it', 'Navigate to Favorites', 'Un-favorite', 'Verify removed'],

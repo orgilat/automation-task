@@ -5,9 +5,9 @@ import logger from '../../../logger';
 
 test.describe('@settings Settings', () => {
   test.beforeEach(async ({ page }) => {
-     await page.goto('/app');
+    await page.goto('/app');
     await page.waitForLoadState('domcontentloaded');
-    
+
     setFunctionalAllureMeta({
       layer: 'e2e',
       suite: 'Notes',
@@ -17,7 +17,7 @@ test.describe('@settings Settings', () => {
     });
   });
 
-  test('Settings panel opens', async ({ page, editorPage, settingsPage }) => {
+  test('Settings panel opens', async ({ editorPage, settingsPage }) => {
     addTestDescription({
       whatIsTested: 'Settings panel opens when clicking the settings button.',
       testSteps: ['Click settings button', 'Verify Preferences tab visible'],
@@ -34,7 +34,7 @@ test.describe('@settings Settings', () => {
     logger.info('Settings panel open test completed');
   });
 
-  test('Data tab shows Download and Export buttons', async ({ page, editorPage, settingsPage }) => {
+  test('Data tab shows Download and Export buttons', async ({ editorPage, settingsPage }) => {
     addTestDescription({
       whatIsTested: 'Data management tab displays Download and Export buttons.',
       testSteps: ['Open settings', 'Navigate to Data management', 'Verify buttons visible'],
@@ -56,7 +56,7 @@ test.describe('@settings Settings', () => {
     logger.info('Data tab buttons test completed');
   });
 
-  test('Markdown preview toggle is interactive', async ({ page, editorPage, settingsPage }) => {
+  test('Markdown preview toggle is interactive', async ({ editorPage, settingsPage }) => {
     addTestDescription({
       whatIsTested: 'Markdown preview toggle can be clicked without error.',
       testSteps: ['Open settings', 'Verify toggle visible', 'Click toggle', 'Verify still visible'],
@@ -81,7 +81,7 @@ test.describe('@settings Settings', () => {
     logger.info('Markdown preview toggle test completed');
   });
 
-  test('Dark mode toggle is interactive', async ({ page, editorPage, settingsPage }) => {
+  test('Dark mode toggle is interactive', async ({ editorPage, settingsPage }) => {
     addTestDescription({
       whatIsTested: 'Dark mode toggle can be clicked without error.',
       testSteps: ['Open settings', 'Verify toggle visible', 'Click toggle', 'Verify still visible'],

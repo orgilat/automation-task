@@ -116,9 +116,8 @@ export class SettingsPage {
     await this.exportBackupButton.click();
   }
 
-  /** Stub: triggers the import backup file picker (browser dialog handling required) */
+  /** Stub: triggers the import backup file picker */
   async importBackup(_filePath: string): Promise<void> {
-    // TODO: use page.setInputFiles() once the file input element is confirmed
     logger.info('[Settings] Import backup (stub)');
     await this.goToDataManagement();
     await this.importBackupButton.click();

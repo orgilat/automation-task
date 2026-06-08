@@ -17,7 +17,7 @@ test.describe('@notes Notes CRUD', () => {
     });
   });
 
-  test('Creates a new note', async ({ page, sidebarPage, noteListPage }) => {
+  test('Creates a new note', async ({ sidebarPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'A user can create a new note and it appears in the note list.',
       testSteps: ['Record initial count', 'Click create note button', 'Verify count increased by 1'],
@@ -37,7 +37,7 @@ test.describe('@notes Notes CRUD', () => {
     logger.info('Note creation test completed');
   });
 
-  test('Typed content appears in editor', async ({ page, sidebarPage, editorPage }) => {
+  test('Typed content appears in editor', async ({ sidebarPage, editorPage }) => {
     addTestDescription({
       whatIsTested: 'Content typed in the editor is visible.',
       testSteps: ['Create note', 'Type content', 'Verify content appears'],
@@ -59,7 +59,7 @@ test.describe('@notes Notes CRUD', () => {
     logger.info('Content typing test completed');
   });
 
-  test('Delete via toolbar removes note from list', async ({ page, sidebarPage, editorPage, noteListPage }) => {
+  test('Delete via toolbar removes note from list', async ({ sidebarPage, editorPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'Deleting a note via toolbar removes it from the list.',
       testSteps: ['Record initial count', 'Create note', 'Delete via toolbar', 'Verify count returns to initial'],
@@ -84,7 +84,7 @@ test.describe('@notes Notes CRUD', () => {
     logger.info('Delete via toolbar test completed');
   });
 
-  test('Creating 3 notes yields count of 3', async ({ page, sidebarPage, noteListPage }) => {
+  test('Creating 3 notes yields count of 3', async ({ sidebarPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'Multiple notes can be created and counted correctly.',
       testSteps: ['Record initial count', 'Create 3 notes', 'Verify count increased by 3'],
