@@ -11,8 +11,6 @@ This project was built to make evaluation as frictionless as possible:
 - **`make run`** — one command: builds the Docker image, runs all tests, generates Allure report with trend history, serves it at `http://localhost:5050`
 - **No environment variables required** to run the tests
 - **Run twice** to see Allure trend graphs (history persists in `.allure-history/`)
-- **On CI failure** — Claude analyzes each failing test and writes a diagnosis to `failure-analysis.md`
-
 ---
 
 ## Screenshots
