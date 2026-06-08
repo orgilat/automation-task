@@ -8,6 +8,7 @@ End-to-end test automation suite for [TakeNote](https://takenote.dev) — an ope
 
 This project was built to make evaluation as frictionless as possible:
 
+- **GitHub Actions (easiest)** — go to [Actions → E2E Tests → Run workflow](../../actions/workflows/e2e.yml). No install needed, Allure report ready as artifact.
 - **`make run`** — one command: builds the Docker image, runs all tests, generates Allure report with trend history, serves it at `http://localhost:5050`
 - **No environment variables required** to run the tests
 - **Run twice** to see Allure trend graphs (history persists in `.allure-history/`)
