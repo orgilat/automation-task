@@ -181,7 +181,6 @@ takenote-qa-suite/
 
 Installs Node 20, installs Playwright Chromium with system dependencies, runs `npx playwright test --project=chromium`, generates the Allure report, and uploads it as a downloadable artifact retained for 30 days. The report is uploaded even when tests fail, so every failure is diagnosable from CI.
 
-**Failure analysis** — `npm run ci:analyze-failures` reads the Allure JSON results, sends each failure to Claude (`claude-sonnet-4-5`), and writes a per-test diagnosis to `failure-analysis.md`. Optionally posts a summary to Slack via `SLACK_WEBHOOK_URL`. Run this manually after a CI failure or wire it into your own notification workflow.
 
 ---
 
