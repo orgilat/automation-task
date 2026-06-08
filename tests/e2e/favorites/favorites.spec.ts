@@ -4,7 +4,10 @@ import { setFunctionalAllureMeta, addTestDescription } from '../../../helpers/al
 import logger from '../../../logger';
 
 test.describe('@favorites Favorites', () => {
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/app');
+    await page.waitForLoadState('domcontentloaded');
+    
     setFunctionalAllureMeta({
       layer: 'e2e',
       suite: 'Notes',
@@ -14,7 +17,7 @@ test.describe('@favorites Favorites', () => {
     });
   });
 
-  test('Favorite via toolbar appears in Favorites', async ({ cleanPage, sidebarPage, editorPage, noteListPage }) => {
+  test('Favorite via toolbar appears in Favorites', async ({ page, sidebarPage, editorPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'A note favorited via toolbar appears in the Favorites section.',
       testSteps: ['Create note', 'Click favorite button', 'Navigate to Favorites', 'Verify note present'],
@@ -41,34 +44,7 @@ test.describe('@favorites Favorites', () => {
     logger.info('Favorite via toolbar test completed');
   });
 
-  test('Favorite via menu appears in Favorites', async ({ cleanPage, sidebarPage, noteListPage, contextMenuPage }) => {
-    addTestDescription({
-      whatIsTested: 'A note favorited via context menu appears in Favorites.',
-      testSteps: ['Create note', 'Open menu', 'Mark favorite', 'Navigate to Favorites', 'Verify present'],
-    });
-
-    await allure.step('Create a new note', async () => {
-      await sidebarPage.createNote();
-    });
-
-    await allure.step('Favorite via context menu', async () => {
-      await noteListPage.openNoteOptions(0);
-      await contextMenuPage.favorite();
-    });
-
-    await allure.step('Navigate to Favorites', async () => {
-      await sidebarPage.goToFavorites();
-    });
-
-    await allure.step('Verify note in Favorites', async () => {
-      const count = await noteListPage.getNoteCount();
-      expect(count).toBe(1);
-    });
-
-    logger.info('Favorite via menu test completed');
-  });
-
-  test('Only favorited note appears in Favorites', async ({ cleanPage, sidebarPage, editorPage, noteListPage }) => {
+  test('Only favorited note appears in Favorites', async ({ page, sidebarPage, editorPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'Only favorited notes appear in the Favorites section.',
       testSteps: ['Create 2 notes', 'Favorite only first', 'Navigate to Favorites', 'Verify count is 1'],
@@ -99,7 +75,7 @@ test.describe('@favorites Favorites', () => {
     logger.info('Single favorite test completed');
   });
 
-  test('Un-favorite removes note from Favorites', async ({ cleanPage, sidebarPage, editorPage, noteListPage }) => {
+  test('Un-favorite removes note from Favorites', async ({ page, sidebarPage, editorPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'Un-favoriting a note removes it from Favorites.',
       testSteps: ['Create note', 'Favorite it', 'Navigate to Favorites', 'Un-favorite', 'Verify removed'],

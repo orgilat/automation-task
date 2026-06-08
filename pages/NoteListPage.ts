@@ -26,14 +26,16 @@ export class NoteListPage {
     await this.searchInput.click();
     await this.searchInput.clear();
     await this.page.keyboard.type(query);
-    await this.page.waitForTimeout(800);
+    // Wait for search results to update by ensuring note items are in stable state
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   /** Clears the search input and waits for the list to restore */
   async clearSearch(): Promise<void> {
     logger.info('[NoteList] Clearing search');
     await this.searchInput.clear();
-    await this.page.waitForTimeout(800);
+    // Wait for full list to restore by ensuring page has processed the clear action
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   /** Returns the note list item at the given 0-based index */

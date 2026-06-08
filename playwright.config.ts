@@ -6,10 +6,9 @@ const IS_CI = !!process.env.CI;
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: true,
   forbidOnly: IS_CI,
   retries: IS_CI ? 2 : 0,
-  workers: IS_CI ? 4 : 10,
+  workers: IS_CI ? 4 : 6,
   timeout: 60_000,
   expect: { timeout: 10_000 },
   reporter: [

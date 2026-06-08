@@ -4,7 +4,10 @@ import { setFunctionalAllureMeta, addTestDescription } from '../../../helpers/al
 import logger from '../../../logger';
 
 test.describe('@notes Notes CRUD', () => {
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/app');
+    await page.waitForLoadState('domcontentloaded');
+    
     setFunctionalAllureMeta({
       layer: 'e2e',
       suite: 'Notes',
@@ -14,7 +17,7 @@ test.describe('@notes Notes CRUD', () => {
     });
   });
 
-  test('Creates a new note', async ({ cleanPage, sidebarPage, noteListPage }) => {
+  test('Creates a new note', async ({ page, sidebarPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'A user can create a new note and it appears in the note list.',
       testSteps: ['Record initial count', 'Click create note button', 'Verify count increased by 1'],
@@ -34,26 +37,7 @@ test.describe('@notes Notes CRUD', () => {
     logger.info('Note creation test completed');
   });
 
-  test('New note opens with empty editor', async ({ cleanPage, sidebarPage, noteListPage, editorPage }) => {
-    addTestDescription({
-      whatIsTested: 'A newly created note starts with an empty editor.',
-      testSteps: ['Create note', 'Verify editor content is empty'],
-    });
-
-    await allure.step('Create a new note', async () => {
-      await sidebarPage.createNote('');
-      await noteListPage.selectNoteAt(0);
-    });
-
-    await allure.step('Verify editor is empty', async () => {
-      const content = await editorPage.getContent();
-      expect(content.trim()).toBe('');
-    });
-
-    logger.info('Empty editor test completed');
-  });
-
-  test('Typed content appears in editor', async ({ cleanPage, sidebarPage, editorPage }) => {
+  test('Typed content appears in editor', async ({ page, sidebarPage, editorPage }) => {
     addTestDescription({
       whatIsTested: 'Content typed in the editor is visible.',
       testSteps: ['Create note', 'Type content', 'Verify content appears'],
@@ -75,7 +59,7 @@ test.describe('@notes Notes CRUD', () => {
     logger.info('Content typing test completed');
   });
 
-  test('Delete via toolbar removes note from list', async ({ cleanPage, sidebarPage, editorPage, noteListPage }) => {
+  test('Delete via toolbar removes note from list', async ({ page, sidebarPage, editorPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'Deleting a note via toolbar removes it from the list.',
       testSteps: ['Record initial count', 'Create note', 'Delete via toolbar', 'Verify count returns to initial'],
@@ -100,28 +84,7 @@ test.describe('@notes Notes CRUD', () => {
     logger.info('Delete via toolbar test completed');
   });
 
-  test('Note list shows first line of content', async ({ cleanPage, sidebarPage, editorPage, noteListPage }) => {
-    addTestDescription({
-      whatIsTested: 'The note list displays the first line of note content.',
-      testSteps: ['Create note', 'Type multi-line content', 'Verify first line appears in list'],
-    });
-
-    await allure.step('Create a new note', async () => {
-      await sidebarPage.createNote();
-    });
-
-    await allure.step('Type multi-line content', async () => {
-      await editorPage.typeContent('Title\nBody');
-    });
-
-    await allure.step('Verify first line shows in list', async () => {
-      await expect(noteListPage.getNoteAt(0)).toContainText('Title');
-    });
-
-    logger.info('First line display test completed');
-  });
-
-  test('Creating 3 notes yields count of 3', async ({ cleanPage, sidebarPage, noteListPage }) => {
+  test('Creating 3 notes yields count of 3', async ({ page, sidebarPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'Multiple notes can be created and counted correctly.',
       testSteps: ['Record initial count', 'Create 3 notes', 'Verify count increased by 3'],

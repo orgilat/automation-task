@@ -1,75 +1,63 @@
 description: |
-  Refactor test isolation across the entire test suite.
-  Replace the current localStorage-clearing approach with simple navigation in beforeEach.
- 
-  ─────────────────────────────────────────────────────
-  CHANGE 1 — fixtures.ts
-  ─────────────────────────────────────────────────────
- 
-  Replace the cleanPage fixture body with this exact implementation:
- 
-  cleanPage: async ({ page }, use, testInfo) => {
-    logger.info(`Setting up cleanPage for: ${testInfo.title}`);
-    await page.goto('/');
-    await waitForAppReady(page);
-    await use(page);
-    logger.info(`Tearing down cleanPage for: ${testInfo.title}`);
-  },
- 
-  Remove: clearAppState import and call, page.reload() call, the deletion loop.
-  Keep: waitForAppReady import and call.
- 
-  ─────────────────────────────────────────────────────
-  CHANGE 2 — every spec file beforeEach
-  ─────────────────────────────────────────────────────
- 
-  In every file under tests/e2e/, remove clearAppState from beforeEach.
-  The beforeEach should only call setFunctionalAllureMeta. Nothing else.
- 
-  ─────────────────────────────────────────────────────
-  CHANGE 3 — make ALL count assertions relative
-  ─────────────────────────────────────────────────────
- 
-  For every test that asserts a note/item count, capture countBefore BEFORE
-  the action and assert relative. Apply this pattern everywhere:
- 
-  BEFORE:
-    await noteListPage.createNote('content');
-    const count = await noteListPage.getNoteCount();
-    expect(count).toBe(1);
- 
-  AFTER:
-    const countBefore = await noteListPage.getNoteCount();
-    await noteListPage.createNote('content');
-    const countAfter = await noteListPage.getNoteCount();
-    expect(countAfter).toBe(countBefore + 1);
- 
-  Apply the same pattern to:
-  - Delete tests: expect(trashCount).toBe(trashCountBefore + 1)
-  - Restore tests: expect(notesCount).toBe(notesCountBefore + 1)
-  - Absent tests: expect(notesCount).toBe(notesCountBefore - 1)
-  - Multiple creates: expect(countAfter).toBe(countBefore + 3)
-  - Favorites: expect(favCount).toBe(favCountBefore + 1)
-  - Search tests: keep existing unique strings, no change needed
- 
-  ─────────────────────────────────────────────────────
-  RULES
-  ─────────────────────────────────────────────────────
- 
-  - Do NOT change any POM files
-  - Do NOT rename or remove the cleanPage fixture
-  - Do NOT change test logic beyond making counts relative
-  - After every file change, run: npx tsc --noEmit
-  - At the end, run: npx playwright test --project=chromium
-  - All 27 tests must pass
- 
-pomsInvolved:
-  - NoteListPage
-  - SidebarPage
- 
-tags:
-  - "@e2e"
- 
-generateReport: false
-runDebug: true
- 
+  Fix tests/e2e/persistence/persistence.spec.ts based on the latest failure log.
+
+  Latest findings:
+  These are NOT simple wait failures.
+  The persistence tests are leaking/shared state or running in parallel.
+  Evidence:
+  - Note count test expected 3 but received 4.
+  - Trash test expected active count 0 but received 1.
+  - Content test still receives empty editor after reload.
+
+  Required fix:
+  - Fix only persistence.spec.ts unless a directly used POM method is clearly wrong.
+  - Do NOT restore localStorage helper.
+  - Do NOT restore waitForApp helper.
+  - Do NOT reintroduce cleanPage.
+  - Do NOT add new tests.
+  - Do NOT rename tests.
+
+  Important:
+  Persistence tests must not rely on absolute counts like 3, 1, or 0 when app state may already contain notes.
+  Use relative count assertions instead:
+  - Capture countBefore.
+  - Create N notes.
+  - Assert countAfter is countBefore + N.
+  - After reload, assert persisted count is still countBefore + N.
+
+  For trash:
+  - Capture trash count before if checking Trash.
+  - Create a note.
+  - Delete it.
+  - Navigate to Trash.
+  - Assert trash count is trashCountBefore + 1 after reload.
+
+  For note content:
+  - After creating a note, select the created note explicitly if needed.
+  - Type "Persist me".
+  - Wait until editor content contains "Persist me" before reload.
+  - After reload, select the same note again if reload clears selection.
+  - Then assert editor content contains "Persist me".
+
+  Also:
+  - Add test.describe.configure({ mode: 'serial' }) inside the persistence describe block if these tests intentionally share browser/app persistence behavior.
+  - beforeEach must use page.goto('/app').
+  - after reload use page.waitForLoadState('domcontentloaded').
+
+  Avoid:
+  - Hardcoded waits as the main fix.
+  - Absolute count assertions.
+  - Editing unrelated specs.
+
+  Acceptance:
+  - npx tsc --noEmit passes.
+  - npx playwright test tests/e2e/persistence/persistence.spec.ts --project=chromium passes.
+  - npx playwright test --project=chromium passes with 27 passed.
+
+files:
+  - tests/e2e/persistence/persistence.spec.ts
+  - tests/e2e/pages/NoteListPage.ts
+  - tests/e2e/pages/SidebarPage.ts
+  - tests/e2e/pages/EditorPage.ts
+
+runValidation: true

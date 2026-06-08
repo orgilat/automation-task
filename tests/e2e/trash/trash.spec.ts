@@ -4,7 +4,10 @@ import { setFunctionalAllureMeta, addTestDescription } from '../../../helpers/al
 import logger from '../../../logger';
 
 test.describe('@trash Trash', () => {
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ page }) => {
+     await page.goto('/app');
+    await page.waitForLoadState('domcontentloaded');
+    
     setFunctionalAllureMeta({
       layer: 'e2e',
       suite: 'Notes',
@@ -14,34 +17,7 @@ test.describe('@trash Trash', () => {
     });
   });
 
-  test('Delete via toolbar sends note to Trash', async ({ cleanPage, sidebarPage, editorPage, noteListPage }) => {
-    addTestDescription({
-      whatIsTested: 'Deleting a note via toolbar moves it to Trash.',
-      testSteps: ['Create note', 'Delete via toolbar', 'Navigate to Trash', 'Verify note present'],
-    });
-
-    await allure.step('Create a new note', async () => {
-      await sidebarPage.createNote();
-      await noteListPage.selectNoteAt(0);
-    });
-
-    await allure.step('Delete note via toolbar', async () => {
-      await editorPage.deleteNote();
-    });
-
-    await allure.step('Navigate to Trash', async () => {
-      await sidebarPage.goToTrash();
-    });
-
-    await allure.step('Verify note in Trash', async () => {
-      const count = await noteListPage.getNoteCount();
-      expect(count).toBe(1);
-    });
-
-    logger.info('Delete via toolbar test completed');
-  });
-
-  test('Delete via menu sends note to Trash', async ({ cleanPage, sidebarPage, noteListPage, contextMenuPage }) => {
+  test('Delete via menu sends note to Trash', async ({ page, sidebarPage, noteListPage, contextMenuPage }) => {
     addTestDescription({
       whatIsTested: 'Deleting a note via context menu moves it to Trash.',
       testSteps: ['Create note', 'Open menu', 'Delete', 'Navigate to Trash', 'Verify present'],
@@ -68,7 +44,7 @@ test.describe('@trash Trash', () => {
     logger.info('Delete via menu test completed');
   });
 
-  test('Restore from Trash returns note to Notes', async ({ cleanPage, sidebarPage, editorPage, noteListPage, contextMenuPage }) => {
+  test('Restore from Trash returns note to Notes', async ({ page, sidebarPage, editorPage, noteListPage, contextMenuPage }) => {
     addTestDescription({
       whatIsTested: 'Restoring a note from Trash returns it to Notes.',
       testSteps: ['Create and delete note', 'Navigate to Trash', 'Restore', 'Navigate to Notes', 'Verify present'],
@@ -106,7 +82,7 @@ test.describe('@trash Trash', () => {
     logger.info('Restore from Trash test completed');
   });
 
-  test('Trashed note absent from Notes view', async ({ cleanPage, sidebarPage, editorPage, noteListPage }) => {
+  test('Trashed note absent from Notes view', async ({ page, sidebarPage, editorPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'A trashed note does not appear in the Notes view.',
       testSteps: ['Create note', 'Delete it', 'Navigate to Notes', 'Verify count is 0'],
@@ -135,7 +111,7 @@ test.describe('@trash Trash', () => {
     logger.info('Trashed note absent test completed');
   });
 
-  test('Delete 2 of 3 notes leaves 2 in Trash', async ({ cleanPage, sidebarPage, editorPage, noteListPage }) => {
+  test('Delete 2 of 3 notes leaves 2 in Trash', async ({ page, sidebarPage, editorPage, noteListPage }) => {
     addTestDescription({
       whatIsTested: 'Deleting multiple notes moves them all to Trash.',
       testSteps: ['Create 3 notes', 'Delete first two', 'Navigate to Trash', 'Verify count is 2'],

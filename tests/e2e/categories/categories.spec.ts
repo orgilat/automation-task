@@ -4,7 +4,10 @@ import { setFunctionalAllureMeta, addTestDescription } from '../../../helpers/al
 import logger from '../../../logger';
 
 test.describe('@categories Categories', () => {
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/app');
+    await page.waitForLoadState('domcontentloaded');
+    
     setFunctionalAllureMeta({
       layer: 'e2e',
       suite: 'Notes',
@@ -14,7 +17,7 @@ test.describe('@categories Categories', () => {
     });
   });
 
-  test('Create a category appears in sidebar', async ({ cleanPage, sidebarPage }) => {
+  test('Create a category appears in sidebar', async ({ page, sidebarPage }) => {
     addTestDescription({
       whatIsTested: 'A created category appears in the sidebar.',
       testSteps: ['Create category "Work"', 'Verify category visible in sidebar'],
@@ -25,13 +28,13 @@ test.describe('@categories Categories', () => {
     });
 
     await allure.step('Verify category appears', async () => {
-      await expect(cleanPage.getByText('Work')).toBeVisible();
+      await expect(page.getByText('Work')).toBeVisible();
     });
 
     logger.info('Category creation test completed');
   });
 
-  test('Create multiple categories independently', async ({ cleanPage, sidebarPage }) => {
+  test('Create multiple categories independently', async ({ page, sidebarPage }) => {
     addTestDescription({
       whatIsTested: 'Multiple categories can be created independently.',
       testSteps: ['Create "Work" category', 'Create "Personal" category', 'Verify both visible'],
@@ -46,14 +49,14 @@ test.describe('@categories Categories', () => {
     });
 
     await allure.step('Verify both categories visible', async () => {
-      await expect(cleanPage.getByText('Work')).toBeVisible();
-      await expect(cleanPage.getByText('Personal')).toBeVisible();
+      await expect(page.getByText('Work')).toBeVisible();
+      await expect(page.getByText('Personal')).toBeVisible();
     });
 
     logger.info('Multiple categories test completed');
   });
 
-  test('Category input closes after submission', async ({ cleanPage, sidebarPage }) => {
+  test('Category input closes after submission', async ({ page, sidebarPage }) => {
     addTestDescription({
       whatIsTested: 'Category input field closes after submitting a new category.',
       testSteps: ['Open category input', 'Verify input visible', 'Submit category', 'Verify input hidden'],
