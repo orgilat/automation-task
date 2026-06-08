@@ -17,6 +17,9 @@ This project was built to make evaluation as frictionless as possible:
 
 ## Screenshots
 
+### Demo — Manual GitHub Actions run
+[▶ Watch demo (run-gitactions.mp4)](run-gitactions.mp4)
+
 ### Demo — Docker execution
 [▶ Watch demo (docker-exec-video.mp4)](docker-exec-video.mp4)
 
