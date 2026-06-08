@@ -15,6 +15,26 @@ This project was built to make evaluation as frictionless as possible:
 
 ---
 
+## Screenshots
+
+### Allure Overview — 27/27 passing
+![allure-front](allure-front.jpg)
+100% pass rate. Run duration, environment info, feature breakdown by component.
+
+### Allure Behaviors — tests by component
+![allure-behaviors](allure-behaviors.jpg)
+All tests grouped by UI region: ContextMenu, NoteList, SettingsPage, Sidebar.
+
+### Allure Packages — test detail
+![allure-packages](allure-packages.jpg)
+Step-level detail: Before Hooks, test body steps, stdout logs, Allure metadata.
+
+### GitHub Actions — CI passing
+![github-artifact](github-artifact.jpg)
+Successful CI run (1m 23s) with Allure report uploaded as downloadable artifact.
+
+---
+
 ## Running Tests
 
 ### Simplest — Docker
@@ -203,18 +223,6 @@ Playwright's HTML reporter is great for local debugging. Allure adds step-level 
 
 **CodeMirror interaction:**
 The editor overlays a `<textarea>` with its own render layer. Clicks target `.CodeMirror` (the container); content is typed via `page.keyboard.type()` after clicking the container.
-
----
-
-## Environment Variables
-
-| Variable | Default | Purpose |
-|----------|---------|---------|
-| `BASE_URL` | `https://takenote.dev/app` | Override test target URL |
-| `CI` | auto-detected by GitHub Actions | Enables retries (2) and adjusts worker count (4) |
-| `LOG_LEVEL` | `info` | Winston verbosity (`debug` / `info` / `warn` / `error`) |
-| `ANTHROPIC_API_KEY` | — | Required only for agent pipeline commands |
-| `SLACK_WEBHOOK_URL` | — | Optional: CI failure notifications via `npm run ci:analyze-failures` |
 
 ---
 
