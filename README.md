@@ -40,9 +40,10 @@ Successful CI run (1m 23s) with Allure report uploaded as downloadable artifact.
 
 ## Running Tests
 
-### ⭐ Recommended — just push to `main`
+### ⭐ Recommended — run manually via GitHub Actions
 
-Tests run automatically on every push and pull request via GitHub Actions. Download the Allure report from the **Artifacts** section of the workflow run — no local setup needed.
+No setup needed. Go to **Actions → E2E Tests → Run workflow → Run workflow**.
+Tests run in CI and the Allure report is available as a downloadable artifact when done.
 
 ### Simplest local — Docker
 
