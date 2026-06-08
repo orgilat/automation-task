@@ -16,25 +16,25 @@ This project was built to make evaluation as frictionless as possible:
 
 ## Screenshots
 
-### Demo — Manual GitHub Actions run
+### Demo - Manual GitHub Actions run
 [▶ Watch demo (run-gitactions.mp4)](run-gitactions.mp4)
 
-### Demo — Docker execution
+### Demo - Docker execution
 [▶ Watch demo (docker-exec-video.mp4)](docker-exec-video.mp4)
 
-### Allure Overview — 27/27 passing
+### Allure Overview - 27/27 passing
 ![allure-front](allure-front.jpg)
 100% pass rate. Run duration, environment info, feature breakdown by component.
 
-### Allure Behaviors — tests by component
+### Allure Behaviors - tests by component
 ![allure-behaviors](allure-behaviors.jpg)
 All tests grouped by UI region: ContextMenu, NoteList, SettingsPage, Sidebar.
 
-### Allure Packages — test detail
+### Allure Packages - test detail
 ![allure-packages](allure-packages.jpg)
 Step-level detail: Before Hooks, test body steps, stdout logs, Allure metadata.
 
-### GitHub Actions — CI passing
+### GitHub Actions - CI passing
 ![github-artifact](github-artifact.jpg)
 Successful CI run (1m 23s) with Allure report uploaded as downloadable artifact.
 
@@ -42,12 +42,12 @@ Successful CI run (1m 23s) with Allure report uploaded as downloadable artifact.
 
 ## Running Tests
 
-### ⭐ Recommended — run manually via GitHub Actions
+### ⭐ Recommended - run manually via GitHub Actions
 
 No setup needed. Go to **Actions → E2E Tests → Run workflow → Run workflow**.
 Tests run in CI and the Allure report is available as a downloadable artifact when done.
 
-### Simplest local — Docker
+### Simplest local - Docker
 
 ```bash
 make run
