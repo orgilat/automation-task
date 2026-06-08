@@ -17,6 +17,9 @@ This project was built to make evaluation as frictionless as possible:
 
 ## Screenshots
 
+### Demo — Docker execution
+[▶ Watch demo (docker-exec-video.mp4)](docker-exec-video.mp4)
+
 ### Allure Overview — 27/27 passing
 ![allure-front](allure-front.jpg)
 100% pass rate. Run duration, environment info, feature breakdown by component.
@@ -45,6 +48,15 @@ make run
 ```
 
 `make run` wraps `docker build` + `docker run` — port mapping, volume mount for Allure history, `BASE_URL`. Nothing to configure.
+
+> **Windows users:** `make` requires GNU Make.
+> Install via Git Bash: `winget install GnuWin32.Make` then restart Git Bash.
+> Or run directly:
+> ```bash
+> docker build -t takenote-tests . && docker run --rm -p 5050:5050 \
+>   -v $(pwd)/.allure-history:/app/allure-history \
+>   -e BASE_URL=https://takenote.dev/app takenote-tests
+> ```
 
 ### Local (no Docker)
 
