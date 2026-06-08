@@ -8,8 +8,8 @@ End-to-end test automation suite for [TakeNote](https://takenote.dev) — an ope
 
 This project was built to make evaluation as frictionless as possible:
 
-- **GitHub Actions (easiest)** — go to [Actions → E2E Tests → Run workflow](../../actions/workflows/e2e.yml). No install needed, Allure report ready as artifact.
-- **`make run`** — one command: builds the Docker image, runs all tests, generates Allure report with trend history, serves it at `http://localhost:5050`
+- **GitHub Actions (easiest)** - go to [Actions → E2E Tests → Run workflow](../../actions/workflows/e2e.yml). No install needed, Allure report ready as artifact.
+- **`make run`** - one command: builds the Docker image, runs all tests, generates Allure report with trend history, serves it at `http://localhost:5050`
 - **No environment variables required** to run the tests
 - **Run twice** to see Allure trend graphs (history persists in `.allure-history/`)
 ---
@@ -175,9 +175,9 @@ takenote-qa-suite/
 ## CI/CD
 
 **`e2e.yml`** triggers:
-- **Push to main** — runs automatically on every commit
-- **Pull Request** — runs on every PR targeting main
-- **Manual** — go to Actions tab → E2E Tests → Run workflow
+- **Push to main** - runs automatically on every commit
+- **Pull Request** - runs on every PR targeting main
+- **Manual** - go to Actions tab → E2E Tests → Run workflow
 
 Installs Node 20, installs Playwright Chromium with system dependencies, runs `npx playwright test --project=chromium`, generates the Allure report, and uploads it as a downloadable artifact retained for 30 days. The report is uploaded even when tests fail, so every failure is diagnosable from CI.
 
