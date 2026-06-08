@@ -9,6 +9,7 @@ dist/
 playwright-report/
 test-results/
 .playwright/
+.playwright-mcp/
 
 # Allure
 allure-results/
@@ -31,6 +32,9 @@ logs/
 .vscode/
 .idea/
 *.swp
+
+# Docker
+.allure-history/
 
 # OS
 .DS_Store

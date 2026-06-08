@@ -4,8 +4,7 @@ import path from 'path';
 import * as readline from 'readline';
 import yaml from 'js-yaml';
 import { runOnlyCleanupAgent } from './specialists/onlyCleanupAgent';
-import { runPomWriterAgent } from './specialists/pomWriterAgent';
-import { runFixtureWriterAgent } from './specialists/fixtureWriterAgent';
+import { runLocatorAgent } from './specialists/locatorAgent';
 import { runTestBuilderAgent } from './specialists/testBuilderAgent';
 import { runCleanCodeAgent } from './specialists/cleanCodeAgent';
 import { runTsCompilerAgent } from './specialists/tsCompilerAgent';
@@ -61,20 +60,11 @@ async function main(): Promise<void> {
   const cleanupResult = await runOnlyCleanupAgent();
   console.log(`   ${cleanupResult}`);
 
-  // ─── Step 1: POMs ─────────────────────────────────────────
-  if (pomsInvolved.length > 0) {
-    console.log(`\n1️⃣  Creating ${pomsInvolved.length} POM(s)...`);
-    for (const pageName of pomsInvolved) {
-      await runPomWriterAgent({ pageName, description: `POM for ${pageName}`, elements: [] });
-      await runFixtureWriterAgent({
-        pageName,
-        fixtureName: pageName.charAt(0).toLowerCase() + pageName.slice(1),
-      });
-      createdFiles.push(`pages/${pageName}.ts`);
-    }
-  } else {
-    console.log(`\n1️⃣  No POMs specified — skipping POM creation`);
-  }
+  // ─── Step 1: Read DOM → create POMs → register in fixtures ──
+  console.log('🔍 Step 1: LocatorAgent (raw-locators.yaml → POMs → fixtures)...');
+  const locatorResult = await runLocatorAgent();
+  console.log(locatorResult);
+  console.log('✅ POMs and fixtures ready\n');
 
   // ─── Step 2: Tests ────────────────────────────────────────
   console.log(`\n2️⃣  Building tests...`);

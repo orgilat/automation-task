@@ -18,16 +18,18 @@
     "agents:edit": "ts-node agents/editOrchestrator.ts",
     "agents:fix": "ts-node agents/fixOrchestrator.ts",
     "agents:yaml": "ts-node agents/yamlOrchestrator.ts",
+    "scrape": "ts-node agents/scraper/scrapeLocators.ts",
+    "agents:clean": "ts-node agents/specialists/cleanCodeAgent.ts",
+    "agents:github": "ts-node agents/specialists/githubAgent.ts",
     "agents:rollback": "ts-node agents/rollback.ts",
     "ci:analyze-failures": "ts-node agents/specialists/failureAnalyzerAgent.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
+    "clean:tests": "ts-node -e \"const {runCleanCodeAgent} = require('./agents/specialists/cleanCode'); runCleanCodeAgent(['tests/e2e/notes/notes.spec.ts','tests/e2e/notes/context-menu.spec.ts','tests/e2e/categories/categories.spec.ts','tests/e2e/search/search.spec.ts','tests/e2e/favorites/favorites.spec.ts','tests/e2e/trash/trash.spec.ts','tests/e2e/persistence/persistence.spec.ts','tests/e2e/settings/settings.spec.ts']).then(console.log)\"",
     "format": "prettier --write \"**/*.{ts,json,md,yml,yaml}\"",
     "format:check": "prettier --check \"**/*.{ts,json,md,yml,yaml}\"",
-    "docker:build": "docker compose build",
-    "docker:test": "docker compose run --rm tests",
-    "docker:report": "docker compose up allure"
+    "docker": "make run"
   },
   "keywords": [
     "playwright",

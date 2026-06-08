@@ -1,0 +1,535 @@
+elements:
+  # ── initial ──────────────────────────────────────────────────────────────
+  - tag: button
+    text: New note
+    ariaLabel: Create new note
+    placeholder: ''
+    classes: action-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: sidebar-action-create-new-note
+    parentClasses: app-sidebar
+    state: initial
+
+  - tag: button
+    text: Scratchpad
+    ariaLabel: ''
+    placeholder: ''
+    classes: app-sidebar-wrapper
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: app-sidebar-main
+    state: initial
+
+  - tag: button
+    text: Notes
+    ariaLabel: ''
+    placeholder: ''
+    classes: app-sidebar-wrapper
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: app-sidebar-main
+    state: initial
+
+  - tag: button
+    text: Favorites
+    ariaLabel: ''
+    placeholder: ''
+    classes: app-sidebar-wrapper
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: app-sidebar-main
+    state: initial
+
+  - tag: button
+    text: Trash
+    ariaLabel: ''
+    placeholder: ''
+    classes: app-sidebar-wrapper
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: app-sidebar-main
+    state: initial
+
+  - tag: button
+    text: Categories
+    ariaLabel: Collapse Category List
+    placeholder: ''
+    classes: collapse-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: category-collapse-button
+    parentClasses: category-title
+    state: initial
+
+  - tag: button
+    text: ''
+    ariaLabel: Add category
+    placeholder: ''
+    classes: category-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: add-category-button
+    parentClasses: category-title
+    state: initial
+
+  - tag: input
+    text: ''
+    ariaLabel: ''
+    placeholder: Search for notes
+    classes: ''
+    id: ''
+    role: ''
+    type: search
+    dataAttrs:
+      data-testid: note-search
+    parentClasses: note-sidebar-header
+    state: initial
+
+  - tag: div
+    text: Welcome to Takenote!Note optionsNotes
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-list-each selected
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: note-list-item-1
+    parentClasses: note-list
+    state: initial
+
+  - tag: div
+    text: Note options
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-options
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: note-options-div-0
+    parentClasses: note-list-outer
+    state: initial
+
+  - tag: div
+    text: Welcome to Takenote!
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-title
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: note-title-0
+    parentClasses: note-list-outer
+    state: initial
+
+  - tag: button
+    text: Preview note
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-menu-bar-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: preview-mode
+    parentClasses: ''
+    state: initial
+
+  - tag: button
+    text: Add note to favorites
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-menu-bar-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: ''
+    state: initial
+
+  - tag: button
+    text: Delete note
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-menu-bar-button trash
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: ''
+    state: initial
+
+  - tag: button
+    text: Download note
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-menu-bar-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: ''
+    state: initial
+
+  - tag: button
+    text: Copy note
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-menu-bar-button uuid
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: uuid-menu-bar-copy-icon
+    parentClasses: ''
+    state: initial
+
+  - tag: button
+    text: Sync notes
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-menu-bar-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: topbar-action-sync-notes
+    parentClasses: ''
+    state: initial
+
+  - tag: button
+    text: Themes
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-menu-bar-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: ''
+    state: initial
+
+  - tag: button
+    text: Settings
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-menu-bar-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: ''
+    state: initial
+
+  - tag: textarea
+    text: ''
+    ariaLabel: ''
+    placeholder: ''
+    classes: ''
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: ''
+    state: initial
+
+  # ── after-create ─────────────────────────────────────────────────────────
+  - tag: div
+    text: New note
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-list-each selected
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: note-list-item-0
+    parentClasses: note-list
+    state: after-create
+
+  # ── context-menu ─────────────────────────────────────────────────────────
+  - tag: div
+    text: Mark as favorite
+    ariaLabel: ''
+    placeholder: ''
+    classes: nav-item
+    id: ''
+    role: button
+    type: ''
+    dataAttrs:
+      data-testid: note-option-favorite
+    parentClasses: options-nav
+    state: context-menu
+
+  - tag: div
+    text: Move to trash
+    ariaLabel: ''
+    placeholder: ''
+    classes: nav-item delete-option
+    id: ''
+    role: button
+    type: ''
+    dataAttrs:
+      data-testid: note-option-trash
+    parentClasses: options-nav
+    state: context-menu
+
+  - tag: div
+    text: Download
+    ariaLabel: ''
+    placeholder: ''
+    classes: nav-item
+    id: ''
+    role: button
+    type: ''
+    dataAttrs:
+      data-testid: note-option-download
+    parentClasses: options-nav
+    state: context-menu
+
+  - tag: div
+    text: Copy reference to note
+    ariaLabel: ''
+    placeholder: ''
+    classes: nav-item
+    id: ''
+    role: button
+    type: ''
+    dataAttrs:
+      data-testid: copy-reference-to-note
+    parentClasses: options-nav
+    state: context-menu
+
+  # ── settings (Preferences tab) ────────────────────────────────────────────
+  - tag: button
+    text: Log out
+    ariaLabel: ''
+    placeholder: ''
+    classes: ''
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: profile flex
+    state: settings
+
+  - tag: div
+    text: Preferences
+    ariaLabel: ''
+    placeholder: ''
+    classes: tab active
+    id: ''
+    role: button
+    type: ''
+    dataAttrs: {}
+    parentClasses: tab-list
+    state: settings
+
+  - tag: div
+    text: Keyboard shortcuts
+    ariaLabel: ''
+    placeholder: ''
+    classes: tab
+    id: ''
+    role: button
+    type: ''
+    dataAttrs: {}
+    parentClasses: tab-list
+    state: settings
+
+  - tag: div
+    text: Data management
+    ariaLabel: ''
+    placeholder: ''
+    classes: tab
+    id: ''
+    role: button
+    type: ''
+    dataAttrs: {}
+    parentClasses: tab-list
+    state: settings
+
+  - tag: div
+    text: About TakeNote
+    ariaLabel: ''
+    placeholder: ''
+    classes: tab
+    id: ''
+    role: button
+    type: ''
+    dataAttrs: {}
+    parentClasses: tab-list
+    state: settings
+
+  - tag: label
+    text: ''
+    ariaLabel: Active line highlight
+    placeholder: ''
+    classes: switch
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: active-line-highlight-toggle
+    parentClasses: settings-option
+    state: settings
+
+  - tag: label
+    text: ''
+    ariaLabel: Display line numbers
+    placeholder: ''
+    classes: switch
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: display-line-nums-toggle
+    parentClasses: settings-option
+    state: settings
+
+  - tag: label
+    text: ''
+    ariaLabel: Scroll past end
+    placeholder: ''
+    classes: switch
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: scroll-past-end-toggle
+    parentClasses: settings-option
+    state: settings
+
+  - tag: label
+    text: ''
+    ariaLabel: Markdown preview
+    placeholder: ''
+    classes: switch
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: markdown-preview-toggle
+    parentClasses: settings-option
+    state: settings
+
+  - tag: label
+    text: ''
+    ariaLabel: Dark mode
+    placeholder: ''
+    classes: switch
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: dark-mode-toggle
+    parentClasses: settings-option
+    state: settings
+
+  - tag: select
+    text: TitleDate CreatedLast Updated
+    ariaLabel: Sort By
+    placeholder: ''
+    classes: ''
+    id: ''
+    role: ''
+    type: select
+    dataAttrs:
+      data-testid: sort-by-dropdown
+    parentClasses: settings-option
+    state: settings
+
+  - tag: select
+    text: Left to rightRight to left
+    ariaLabel: Text direction
+    placeholder: ''
+    classes: ''
+    id: ''
+    role: ''
+    type: select
+    dataAttrs:
+      data-testid: text-direction-dropdown
+    parentClasses: settings-option
+    state: settings
+
+  # ── settings-data (Data management tab) ───────────────────────────────────
+  - tag: button
+    text: Download all notes
+    ariaLabel: Download all notes
+    placeholder: ''
+    classes: icon-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs:
+      data-testid: settings-modal-download-notes
+    parentClasses: tab-content
+    state: settings-data
+
+  - tag: button
+    text: Export backup
+    ariaLabel: Export backup
+    placeholder: ''
+    classes: icon-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: tab-content
+    state: settings-data
+
+  - tag: button
+    text: Import backup
+    ariaLabel: Import backup
+    placeholder: ''
+    classes: icon-button
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: ''
+    state: settings-data
+
+  # ── scratchpad ────────────────────────────────────────────────────────────
+  - tag: div
+    text: Scratchpad
+    ariaLabel: ''
+    placeholder: ''
+    classes: note-list-each selected
+    id: ''
+    role: ''
+    type: ''
+    dataAttrs: {}
+    parentClasses: note-list
+    state: scratchpad
+
+  # ── category-input ────────────────────────────────────────────────────────
+  - tag: input
+    text: ''
+    ariaLabel: Category name
+    placeholder: New category...
+    classes: ''
+    id: ''
+    role: ''
+    type: text
+    dataAttrs:
+      data-testid: new-category-label
+    parentClasses: category-form
+    state: category-input

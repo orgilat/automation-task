@@ -1,10 +1,75 @@
-# Fill this in when you want to fix a specific failure manually.
-# Then run: npm run agents:fix
-
 description: |
-  Describe what failed and what needs to be fixed.
-  Be specific — include the error, the file path, and what the correct behavior should be.
-
-files: []
-
-runValidation: false
+  Refactor test isolation across the entire test suite.
+  Replace the current localStorage-clearing approach with simple navigation in beforeEach.
+ 
+  ─────────────────────────────────────────────────────
+  CHANGE 1 — fixtures.ts
+  ─────────────────────────────────────────────────────
+ 
+  Replace the cleanPage fixture body with this exact implementation:
+ 
+  cleanPage: async ({ page }, use, testInfo) => {
+    logger.info(`Setting up cleanPage for: ${testInfo.title}`);
+    await page.goto('/');
+    await waitForAppReady(page);
+    await use(page);
+    logger.info(`Tearing down cleanPage for: ${testInfo.title}`);
+  },
+ 
+  Remove: clearAppState import and call, page.reload() call, the deletion loop.
+  Keep: waitForAppReady import and call.
+ 
+  ─────────────────────────────────────────────────────
+  CHANGE 2 — every spec file beforeEach
+  ─────────────────────────────────────────────────────
+ 
+  In every file under tests/e2e/, remove clearAppState from beforeEach.
+  The beforeEach should only call setFunctionalAllureMeta. Nothing else.
+ 
+  ─────────────────────────────────────────────────────
+  CHANGE 3 — make ALL count assertions relative
+  ─────────────────────────────────────────────────────
+ 
+  For every test that asserts a note/item count, capture countBefore BEFORE
+  the action and assert relative. Apply this pattern everywhere:
+ 
+  BEFORE:
+    await noteListPage.createNote('content');
+    const count = await noteListPage.getNoteCount();
+    expect(count).toBe(1);
+ 
+  AFTER:
+    const countBefore = await noteListPage.getNoteCount();
+    await noteListPage.createNote('content');
+    const countAfter = await noteListPage.getNoteCount();
+    expect(countAfter).toBe(countBefore + 1);
+ 
+  Apply the same pattern to:
+  - Delete tests: expect(trashCount).toBe(trashCountBefore + 1)
+  - Restore tests: expect(notesCount).toBe(notesCountBefore + 1)
+  - Absent tests: expect(notesCount).toBe(notesCountBefore - 1)
+  - Multiple creates: expect(countAfter).toBe(countBefore + 3)
+  - Favorites: expect(favCount).toBe(favCountBefore + 1)
+  - Search tests: keep existing unique strings, no change needed
+ 
+  ─────────────────────────────────────────────────────
+  RULES
+  ─────────────────────────────────────────────────────
+ 
+  - Do NOT change any POM files
+  - Do NOT rename or remove the cleanPage fixture
+  - Do NOT change test logic beyond making counts relative
+  - After every file change, run: npx tsc --noEmit
+  - At the end, run: npx playwright test --project=chromium
+  - All 27 tests must pass
+ 
+pomsInvolved:
+  - NoteListPage
+  - SidebarPage
+ 
+tags:
+  - "@e2e"
+ 
+generateReport: false
+runDebug: true
+ 

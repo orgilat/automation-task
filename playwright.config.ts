@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import 'dotenv/config';
 
-const BASE_URL = process.env.BASE_URL || 'https://takenote.dev';
+const BASE_URL = process.env.BASE_URL || 'https://takenote.dev/app';
 const IS_CI = !!process.env.CI;
 
 export default defineConfig({
@@ -9,7 +9,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: IS_CI,
   retries: IS_CI ? 2 : 0,
-  workers: 5,
+  workers: IS_CI ? 4 : 10,
   timeout: 60_000,
   expect: { timeout: 10_000 },
   reporter: [

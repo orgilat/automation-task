@@ -1,16 +1,270 @@
-# Main input file for the agent pipeline.
-# Edit this before running `npm run agents` or `npm run agents:bootstrap`.
-
 description: |
-  Describe what you want the pipeline to build.
-  Be specific. Examples:
-    - "Create a NoteListPage POM with createNote, deleteNote, searchNotes methods, then build a test that verifies creating a note adds it to the visible list."
-    - "Add a test that creates a note, refreshes the page, and verifies it persists via localStorage inspection."
+  Write all E2E tests for TakeNote organized by feature area.
 
-pomsInvolved: []
+  BASE_URL is https://takenote.dev/app — page.goto('/app') lands directly in the app.
+
+  All tests import from '../../fixtures' (never @playwright/test directly).
+  All tests use the cleanPage fixture.
+  Every test has setFunctionalAllureMeta in beforeEach and addTestDescription at top.
+  Every action is wrapped in allure.step().
+  Max 15 lines per test body.
+
+  Context menu flow: always call getNoteOptionsAt(0) to open the three-dots menu,
+  then wait for menu to appear before interacting with ContextMenuPage locators.
+
+  Do NOT test: OAuth, GitHub sync, clipboard verification, file download verification.
+
+  ---
+
+  FILE 1: tests/e2e/notes/notes.spec.ts
+  describe: '@notes Notes CRUD'
+  suite: Notes / subSuite: CRUD / component: NoteList / severity: critical
+
+  test 1: Creates a new note
+  - createNote()
+  - assert getNoteCount() === 1
+
+  test 2: New note opens with empty editor
+  - createNote()
+  - assert editorPage.getContent() === ''
+
+  test 3: Typed content appears in editor
+  - createNote()
+  - typeContent('Hello world')
+  - assert getContent() contains 'Hello world'
+
+  test 4: Delete via toolbar removes note from list
+  - createNote()
+  - editorPage.moveToTrashButton.click()
+  - assert getNoteCount() === 0
+
+  test 5: Note list shows first line of content
+  - createNote()
+  - typeContent('Title\nBody')
+  - assert getNoteAt(0) contains text 'Title'
+
+  test 6: Creating 3 notes yields count of 3
+  - createNote() x3
+  - assert getNoteCount() === 3
+
+  ---
+
+  FILE 2: tests/e2e/notes/context-menu.spec.ts
+  describe: '@notes Note context menu'
+  suite: Notes / subSuite: Context Menu / component: ContextMenu / severity: critical
+
+  test 1: Three-dots menu opens on click
+  - createNote()
+  - getNoteOptionsAt(0).click()
+  - assert contextMenuPage.favoriteOption is visible
+
+  test 2: All 4 menu options are present
+  - createNote()
+  - getNoteOptionsAt(0).click()
+  - assert favoriteOption, trashOption, downloadOption, copyReferenceOption all visible
+
+  test 3: Move to trash via menu
+  - createNote()
+  - getNoteOptionsAt(0).click()
+  - contextMenuPage.moveToTrash()
+  - sidebarPage.goToTrash()
+  - assert getNoteCount() === 1
+
+  test 4: Favorite via menu
+  - createNote()
+  - getNoteOptionsAt(0).click()
+  - contextMenuPage.favorite()
+  - sidebarPage.goToFavorites()
+  - assert getNoteCount() === 1
+
+  test 5: Menu closes after selecting an option
+  - createNote()
+  - getNoteOptionsAt(0).click()
+  - contextMenuPage.moveToTrash()
+  - assert contextMenuPage.favoriteOption is not visible
+
+  ---
+
+  FILE 3: tests/e2e/categories/categories.spec.ts
+  describe: '@categories Categories'
+  suite: Notes / subSuite: Categories / component: Sidebar / severity: normal
+
+  test 1: Create a category appears in sidebar
+  - sidebarPage.createCategory('Work')
+  - assert cleanPage.getByText('Work') is visible
+
+  test 2: Create multiple categories independently
+  - createCategory('Work')
+  - createCategory('Personal')
+  - assert both getByText visible
+
+  test 3: Category input closes after submission
+  - click addCategoryButton
+  - assert newCategoryInput visible
+  - type 'Work' + Enter
+  - assert newCategoryInput hidden
+
+  ---
+
+  FILE 4: tests/e2e/search/search.spec.ts
+  describe: '@search Search'
+  suite: Notes / subSuite: Search / component: NoteList / severity: critical
+
+  test 1: Search filters to matching notes
+  - createNote() x2 with content 'Alpha' and 'Beta'
+  - search('Alpha')
+  - assert getNoteCount() === 1
+
+  test 2: Search with no match shows empty list
+  - search('zzz-no-match-xyz')
+  - assert getNoteCount() === 0
+
+  test 3: Clearing search restores full list
+  - createNote() x2
+  - search first note content
+  - clearSearch()
+  - assert getNoteCount() === 2
+
+  test 4: Search input retains typed value
+  - search('hello')
+  - assert searchInput toHaveValue('hello')
+
+  ---
+
+  FILE 5: tests/e2e/favorites/favorites.spec.ts
+  describe: '@favorites Favorites'
+  suite: Notes / subSuite: Favorites / component: Sidebar / severity: critical
+
+  test 1: Favorite via toolbar appears in Favorites
+  - createNote()
+  - editorPage.favoriteButton.click()
+  - sidebarPage.goToFavorites()
+  - assert getNoteCount() === 1
+
+  test 2: Favorite via menu appears in Favorites
+  - createNote()
+  - getNoteOptionsAt(0).click()
+  - contextMenuPage.favorite()
+  - goToFavorites()
+  - assert getNoteCount() === 1
+
+  test 3: Only favorited note appears in Favorites
+  - createNote() x2
+  - favorite only the first
+  - goToFavorites()
+  - assert getNoteCount() === 1
+
+  test 4: Un-favorite removes note from Favorites
+  - createNote()
+  - favorite it via toolbar
+  - goToFavorites()
+  - editorPage.favoriteButton.click() again
+  - assert getNoteCount() === 0
+
+  ---
+
+  FILE 6: tests/e2e/trash/trash.spec.ts
+  describe: '@trash Trash'
+  suite: Notes / subSuite: Trash / component: Sidebar / severity: critical
+
+  test 1: Delete via toolbar sends note to Trash
+  - createNote()
+  - editorPage.moveToTrashButton.click()
+  - sidebarPage.goToTrash()
+  - assert getNoteCount() === 1
+
+  test 2: Delete via menu sends note to Trash
+  - createNote()
+  - getNoteOptionsAt(0).click()
+  - contextMenuPage.moveToTrash()
+  - goToTrash()
+  - assert getNoteCount() === 1
+
+  test 3: Restore from Trash returns note to Notes
+  - createNote()
+  - delete it via toolbar
+  - goToTrash()
+  - contextMenuPage.restoreFromTrash()
+  - goToNotes()
+  - assert getNoteCount() === 1
+
+  test 4: Trashed note absent from Notes view
+  - createNote()
+  - delete it
+  - goToNotes()
+  - assert getNoteCount() === 0
+
+  test 5: Delete 2 of 3 notes leaves 2 in Trash
+  - createNote() x3
+  - delete first two
+  - goToTrash()
+  - assert getNoteCount() === 2
+
+  ---
+
+  FILE 7: tests/e2e/persistence/persistence.spec.ts
+  describe: '@persistence Persistence'
+  suite: Notes / subSuite: Persistence / component: LocalStorage / severity: critical
+
+  test 1: Note content survives reload
+  - createNote()
+  - typeContent('Persist me')
+  - page.reload() + waitForAppReady()
+  - assert getContent() contains 'Persist me'
+
+  test 2: Note count survives reload
+  - createNote() x3
+  - page.reload() + waitForAppReady()
+  - assert getNoteCount() === 3
+
+  test 3: Category survives reload
+  - createCategory('Meetings')
+  - page.reload() + waitForAppReady()
+  - assert getByText('Meetings') visible
+
+  test 4: Trashed note stays in Trash after reload
+  - createNote()
+  - delete it
+  - page.reload() + waitForAppReady()
+  - goToTrash()
+  - assert getNoteCount() === 1
+
+  ---
+
+  FILE 8: tests/e2e/settings/settings.spec.ts
+  describe: '@settings Settings'
+  suite: Notes / subSuite: Settings / component: SettingsPage / severity: normal
+
+  test 1: Settings panel opens
+  - editorPage.openSettings()
+  - assert settingsPage.preferencesTab is visible
+
+  test 2: Data tab shows Download and Export buttons
+  - openSettings()
+  - settingsPage.dataManagementTab.click()
+  - assert downloadAllButton and exportBackupButton visible
+
+  test 3: Markdown preview toggle is interactive
+  - openSettings()
+  - assert markdownPreviewToggle visible
+  - click it
+  - assert still visible (no crash)
+
+  test 4: Dark mode toggle is interactive
+  - openSettings()
+  - assert darkModeToggle visible
+  - click it
+  - assert still visible (no crash)
+
+pomsInvolved:
+  - NoteListPage
+  - SidebarPage
+  - EditorPage
+  - ContextMenuPage
+  - SettingsPage
 
 tags:
-  - '@e2e'
+  - "@e2e"
 
 generateReport: false
 runDebug: true

@@ -17,7 +17,7 @@ export async function clearAppState(page: Page): Promise<void> {
     window.localStorage.clear();
     window.sessionStorage.clear();
   });
-  logger.info('App state cleared (localStorage + sessionStorage)');
+  logger.info('App state cleared');
 }
 
 export async function getAppState(page: Page): Promise<Record<string, unknown>> {
