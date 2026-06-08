@@ -135,7 +135,7 @@ takenote-qa-suite/
 ├── fixtures.ts                  # Playwright fixtures: POM injection via base.extend()
 ├── logger.ts                    # Winston structured logger
 ├── playwright.config.ts         # Playwright config: baseURL, retries, reporters, viewport
-├── Dockerfile                   # Playwright 1.49 + Allure 2.29 container
+├── Dockerfile                   # Playwright 1.60 + Allure 2.29 container
 ├── run-tests.sh                 # Container entrypoint: restore history → run → report → serve
 └── Makefile                     # make run: docker build + docker run with volume + port
 ```
@@ -232,4 +232,4 @@ The editor overlays a `<textarea>` with its own render layer. Clicks target `.Co
 - Docker (for `make run`)
 - Chromium — `npx playwright install chromium` (for local execution)
 
-Built with: **Playwright 1.49** · **TypeScript 5.7** · **Allure 3.0** · **Claude Sonnet 4.5** · **Docker** · **GitHub Actions**
+Built with: **Playwright 1.60** · **TypeScript 5.7** · **Allure 3.0** · **Claude Sonnet 4.5** · **Docker** · **GitHub Actions**
