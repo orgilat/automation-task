@@ -226,7 +226,7 @@ Requires `ANTHROPIC_API_KEY` in `.env`. The tests themselves have no such requir
 
 ## Design Decisions
 
-**Why E2E only — no API tests?**
+**Why E2E only - no API tests?**
 TakeNote is a client-side-only React app with no backend API. All state lives in browser `localStorage`. E2E is the only meaningful test layer for this architecture.
 
 **Why the public demo URL?**
