@@ -40,7 +40,11 @@ Successful CI run (1m 23s) with Allure report uploaded as downloadable artifact.
 
 ## Running Tests
 
-### Simplest — Docker
+### ⭐ Recommended — just push to `main`
+
+Tests run automatically on every push and pull request via GitHub Actions. Download the Allure report from the **Artifacts** section of the workflow run — no local setup needed.
+
+### Simplest local — Docker
 
 ```bash
 make run
@@ -140,8 +144,7 @@ takenote-qa-suite/
 │       ├── trash/               # Trash and restore (5 tests)
 │       └── settings/            # Settings modal (4 tests)
 ├── helpers/
-│   ├── allureLabels.ts          # setFunctionalAllureMeta, addTestDescription
-│   └── localStorage.ts          # LocalStorage utilities
+│   └── allureLabels.ts          # setFunctionalAllureMeta, addTestDescription
 ├── scripts/
 │   └── test-full.ts             # Local runner: clear results → run → generate → open report
 ├── fixtures.ts                  # Playwright fixtures: POM injection via base.extend()
